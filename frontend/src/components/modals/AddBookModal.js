@@ -12,13 +12,15 @@ export default function AddBookModal(props) {
         selectedBookType,
         isEdit = false,
         onSubmit,
-        onFieldsChange
+        onFieldsChange,
     } = props;
 
     return (
         <Modal show={isOpen} onHide={onClose}>
             <Modal.Header>
-                <Modal.Title>{isEdit ? 'Edit book data' : 'Add new book'}</Modal.Title>
+                <Modal.Title>
+                    {isEdit ? 'Edit book data' : 'Add new book'}
+                </Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
@@ -53,18 +55,20 @@ export default function AddBookModal(props) {
                             value={selectedBookType}
                         >
                             <option>Choose...</option>
-                            {bookTypes.map((bt) =>
-                                <option value={bt.ID} key={bt.ID}>{bt.NAME}</option>
-                            )}
+                            {bookTypes.map(bt => (
+                                <option value={bt.ID} key={bt.ID}>
+                                    {bt.NAME}
+                                </option>
+                            ))}
                         </Form.Control>
                     </Form.Group>
                 </Form>
                 <div className="justify-content-between d-flex">
                     <Button variant="outline-info" onClick={onClose}>
-            Cancel
+                        Cancel
                     </Button>
                     <Button variant={isEdit ? 'warning' : 'info'} onClick={onSubmit}>
-            Submit
+                        Submit
                     </Button>
                 </div>
             </Modal.Body>
@@ -81,5 +85,5 @@ AddBookModal.propTypes = {
     selectedBookType: PropTypes.string,
     isEdit: PropTypes.bool,
     onSubmit: PropTypes.func,
-    onFieldsChange: PropTypes.func
+    onFieldsChange: PropTypes.func,
 };

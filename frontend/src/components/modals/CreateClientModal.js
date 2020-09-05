@@ -13,13 +13,15 @@ export default function CreateClientModal(props) {
         passportNum,
         isEdit = false,
         onSubmit,
-        onFieldsChange
+        onFieldsChange,
     } = props;
 
     return (
         <Modal show={isOpen} onHide={onClose}>
             <Modal.Header>
-                <Modal.Title>{isEdit ? 'Edit client' : 'Add new client'}</Modal.Title>
+                <Modal.Title>
+                    {isEdit ? 'Edit client' : 'Add new client'}
+                </Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
@@ -31,7 +33,7 @@ export default function CreateClientModal(props) {
                             name="firstName"
                             placeholder="Enter first name"
                             value={firstName}
-                            onChange={(e) => onFieldsChange(e)}
+                            onChange={e => onFieldsChange(e)}
                         />
                     </Form.Group>
                     <Form.Group>
@@ -77,10 +79,10 @@ export default function CreateClientModal(props) {
                 </Form>
                 <div className="justify-content-between d-flex">
                     <Button variant="outline-info" onClick={onClose}>
-            Cancel
+                        Cancel
                     </Button>
                     <Button variant={isEdit ? 'warning' : 'info'} onClick={onSubmit}>
-            Submit
+                        Submit
                     </Button>
                 </div>
             </Modal.Body>
@@ -98,5 +100,5 @@ CreateClientModal.propTypes = {
     passportNum: PropTypes.string,
     isEdit: PropTypes.bool,
     onSubmit: PropTypes.func,
-    onFieldsChange: PropTypes.func
+    onFieldsChange: PropTypes.func,
 };

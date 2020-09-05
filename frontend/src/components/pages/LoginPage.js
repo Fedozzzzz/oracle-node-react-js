@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 class LoginPage extends Component {
     static propTypes = {
-        history: PropTypes.string
+        history: PropTypes.string,
     };
 
     constructor(props) {
@@ -16,55 +16,55 @@ class LoginPage extends Component {
             email: '',
             password: '',
             error: '',
-            showPages: false
+            showPages: false,
         };
     }
 
-  handleLoginChange = (e) => {
-      this.setState({
-          email: e.target.value
-      });
-  }
+    handleLoginChange = e => {
+        this.setState({
+            email: e.target.value,
+        });
+    };
 
-  handlePasswordChange = (e) => {
-      this.setState({
-          password: e.target.value
-      });
-  }
+    handlePasswordChange = e => {
+        this.setState({
+            password: e.target.value,
+        });
+    };
 
-  handleSubmit = async (e) => {
-      e.preventDefault();
-      const { history } = this.props;
-      const { email, password } = this.state;
-      const body = {
-          email,
-          password
-      };
-      try {
-          const res = await login(body);
-          if (res.ok) {
-              history.push('/journal');
-          }
-      } catch (e) {
-          this.setState({ error: e });
-      }
-  }
+    handleSubmit = async e => {
+        e.preventDefault();
+        const { history } = this.props;
+        const { email, password } = this.state;
+        const body = {
+            email,
+            password,
+        };
+        try {
+            const res = await login(body);
+            if (res.ok) {
+                history.push('/journal');
+            }
+        } catch (e) {
+            this.setState({ error: e });
+        }
+    };
 
-  render() {
-      const { email, password } = this.state;
+    render() {
+        const { email, password } = this.state;
 
-      return (
-          <div className="container">
-              <LoginForm
-                  email={email}
-                  password={password}
-                  handleSubmit={this.handleSubmit}
-                  handlePasswordChange={this.handlePasswordChange}
-                  handleLoginChange={this.handleLoginChange}
-              />
-          </div>
-      );
-  }
+        return (
+            <div className="container">
+                <LoginForm
+                    email={email}
+                    password={password}
+                    handleSubmit={this.handleSubmit}
+                    handlePasswordChange={this.handlePasswordChange}
+                    handleLoginChange={this.handleLoginChange}
+                />
+            </div>
+        );
+    }
 }
 
 export default withRouter(LoginPage);

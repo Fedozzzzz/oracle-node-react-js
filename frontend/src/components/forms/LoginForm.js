@@ -9,7 +9,7 @@ export default function Login(props) {
         password,
         handleSubmit,
         handleLoginChange,
-        handlePasswordChange
+        handlePasswordChange,
     } = props;
 
     function validateForm() {
@@ -38,8 +38,13 @@ export default function Login(props) {
                         type="password"
                     />
                 </Form.Group>
-                <Button block bsSize="large" disabled={!validateForm()} type="submit">
-          Login
+                <Button
+                    block
+                    bsSize="large"
+                    disabled={!validateForm()}
+                    type="submit"
+                >
+                    Login
                 </Button>
             </form>
         </div>

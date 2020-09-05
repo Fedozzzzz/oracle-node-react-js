@@ -13,10 +13,10 @@ export default function DeleteModal(props) {
             <Modal.Body>
                 <div className="justify-content-between d-flex">
                     <Button variant="outline-info" onClick={onClose}>
-            Cancel
+                        Cancel
                     </Button>
                     <Button variant="danger" onClick={onDelete}>
-            Delete
+                        Delete
                     </Button>
                 </div>
             </Modal.Body>
@@ -28,5 +28,5 @@ DeleteModal.propTypes = {
     isOpen: PropTypes.bool,
     onClose: PropTypes.func,
     onDelete: PropTypes.func,
-    title: PropTypes.string
+    title: PropTypes.string,
 };

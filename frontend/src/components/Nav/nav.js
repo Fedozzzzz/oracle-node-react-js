@@ -10,16 +10,16 @@ function Navigation() {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     <Link to="/journal" className="nav-link">
-            Journal
+                        Journal
                     </Link>
                     <Link to="/clients" className="nav-link">
-            Clients
+                        Clients
                     </Link>
                     <Link to="/books" className="nav-link">
-            Books
+                        Books
                     </Link>
                     <Link to="/book-types" className="nav-link">
-            Book Types
+                        Book Types
                     </Link>
                 </Nav>
             </Navbar.Collapse>
