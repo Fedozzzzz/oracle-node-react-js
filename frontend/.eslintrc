@@ -28,7 +28,6 @@
     "no-multi-spaces": "error",
     "quotes": [2, "single", { "avoidEscape": true }],
     "no-trailing-spaces": [2, { "skipBlankLines": true }],
-    "no-extra-parens": ["error", "all", { "nestedBinaryExpressions": false, "enforceForArrowConditionals": false, "returnAssign": false, "conditionalAssign": false }]
   },
   "settings": {
     "react": {

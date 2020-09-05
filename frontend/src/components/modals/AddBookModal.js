@@ -55,11 +55,11 @@ export default function AddBookModal(props) {
                             value={selectedBookType}
                         >
                             <option>Choose...</option>
-                            {bookTypes.map(bt =>
+                            {bookTypes.map(bt => (
                                 <option value={bt.ID} key={bt.ID}>
                                     {bt.NAME}
                                 </option>
-                            )}
+                            ))}
                         </Form.Control>
                     </Form.Group>
                 </Form>

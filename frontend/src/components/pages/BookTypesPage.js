@@ -46,7 +46,7 @@ class BookTypesPage extends Component {
     renderTableRows() {
         const { bookTypes } = this.state;
 
-        return bookTypes.map(bt =>
+        return bookTypes.map(bt => (
             <tr key={bt.ID}>
                 <th>{bt.ID}</th>
                 <th>{bt.NAME}</th>
@@ -54,7 +54,7 @@ class BookTypesPage extends Component {
                 <th>{bt.FINE}</th>
                 <th>{bt.DAY_COUNT}</th>
             </tr>
-        );
+        ));
     }
 
     renderFailedMessage() {

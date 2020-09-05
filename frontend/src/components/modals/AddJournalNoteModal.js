@@ -37,11 +37,11 @@ export default function CreateClientModal(props) {
                             disabled={isEdit}
                         >
                             <option>Select Client</option>
-                            {clients.map(cl =>
+                            {clients.map(cl => (
                                 <option key={cl.ID} value={cl.ID}>
                                     {`${cl.FIRST_NAME} ${cl.LAST_NAME} ${cl.PATHER_NAME}`}
                                 </option>
-                            )}
+                            ))}
                         </Form.Control>
                     </Form.Group>
                     <Form.Group>
@@ -54,16 +54,16 @@ export default function CreateClientModal(props) {
                             disabled={isEdit}
                         >
                             <option>Select Book</option>
-                            {books.map(bk =>
+                            {books.map(bk => (
                                 <option
                                     key={bk.ID}
                                     value={bk.ID}
                                 >{`${bk.NAME}`}</option>
-                            )}
+                            ))}
                         </Form.Control>
                     </Form.Group>
 
-                    {isEdit &&
+                    {isEdit && (
                         <Form.Group>
                             <Form.Label>Begin Date</Form.Label>
                             <Form.Control
@@ -74,8 +74,8 @@ export default function CreateClientModal(props) {
                                 onChange={onFieldsChange}
                             />
                         </Form.Group>
-                    }
-                    {isEdit &&
+                    )}
+                    {isEdit && (
                         <Form.Group>
                             <Form.Label>End Date</Form.Label>
                             <Form.Control
@@ -86,8 +86,8 @@ export default function CreateClientModal(props) {
                                 onChange={onFieldsChange}
                             />
                         </Form.Group>
-                    }
-                    {isEdit &&
+                    )}
+                    {isEdit && (
                         <Form.Group>
                             <Form.Label>Return Date</Form.Label>
                             <Form.Control
@@ -96,7 +96,7 @@ export default function CreateClientModal(props) {
                                 onChange={onFieldsChange}
                             />
                         </Form.Group>
-                    }
+                    )}
                 </Form>
                 <div className="justify-content-between d-flex">
                     <Button variant="outline-info" onClick={onClose}>

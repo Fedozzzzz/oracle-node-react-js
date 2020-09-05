@@ -202,7 +202,7 @@ class JournalPage extends Component {
     renderTableRows() {
         const { journal } = this.state;
 
-        return journal.map(j =>
+        return journal.map(j => (
             <tr key={j.ID}>
                 <th>{j.ID}</th>
                 <th>{j.BOOK_ID}</th>
@@ -229,7 +229,7 @@ class JournalPage extends Component {
                     </button>
                 </th>
             </tr>
-        );
+        ));
     }
 
     renderFailedMessage() {
