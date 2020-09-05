@@ -6,6 +6,7 @@ import ClientsPage from "./components/pages/ClientsPage";
 import BooksPage from "./components/pages/BooksPage";
 import JournalPage from "./components/pages/JournalPage";
 import BookTypesPage from "./components/pages/BookTypesPage";
+import '../public/favicon.ico';
 
 class App extends Component {
     render() {
