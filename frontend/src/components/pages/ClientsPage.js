@@ -219,7 +219,7 @@ class ClientsPage extends Component {
     renderTableRows() {
         const { clients } = this.state;
 
-        return clients.map(cl => (
+        return clients.map(cl =>
             <tr key={cl.ID}>
                 <th>{cl.ID}</th>
                 <th>{cl.FIRST_NAME}</th>
@@ -251,7 +251,7 @@ class ClientsPage extends Component {
                     </button>
                 </th>
             </tr>
-        ));
+        );
     }
 
     renderFailedMessage() {

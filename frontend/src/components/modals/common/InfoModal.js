@@ -19,9 +19,9 @@ export default function InfoModal(props) {
             </Modal.Header>
             <Modal.Body>
                 {component && <div>{component}</div>}
-                {message && (
+                {message &&
                     <div className="justify-content-center d-flex">{message}</div>
-                )}
+                }
                 <br />
                 <div className="justify-content-between d-flex">
                     <Button variant="outline-info" onClick={onClose}>

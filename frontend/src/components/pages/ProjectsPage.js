@@ -209,11 +209,11 @@ class ProjectsPage extends Component {
                                 onChange={e => this.handleFormChange(e)}
                             >
                                 <option>Choose...</option>
-                                {_.map(departments, department => (
+                                {_.map(departments, department =>
                                     <option value={department.ID}>
                                         {department.NAME}
                                     </option>
-                                ))}
+                                )}
                             </Form.Control>
                         </Form.Group>
                         <Form.Row>
@@ -304,11 +304,11 @@ class ProjectsPage extends Component {
                                 onChange={e => this.handleFormChange(e)}
                             >
                                 <option>Choose...</option>
-                                {_.map(departments, department => (
+                                {_.map(departments, department =>
                                     <option value={department.ID}>
                                         {department.NAME}
                                     </option>
-                                ))}
+                                )}
                             </Form.Control>
                         </Form.Group>
                         <Form.Row>

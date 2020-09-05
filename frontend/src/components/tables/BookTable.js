@@ -12,16 +12,16 @@ export default function BookTable(props) {
     } = props;
 
     function renderTableRows() {
-        return books.map(bk => (
+        return books.map(bk =>
             <tr key={bk.ID}>
                 <th>{bk.ID}</th>
                 <th>{bk.NAME}</th>
                 <th>{bk.COUNT}</th>
                 {!withoutTypes && <th>{bk.TYPE_ID}</th>}
                 {!withoutTypes && <th>{getTypeNameById(bk.TYPE_ID)}</th>}
-                {!readOnly && (
+                {!readOnly &&
                     <th>
-                        {onDelete && (
+                        {onDelete &&
                             <button
                                 type="button"
                                 className="btn btn-outline-danger btn-sm mx-2"
@@ -29,8 +29,8 @@ export default function BookTable(props) {
                             >
                                 Delete
                             </button>
-                        )}
-                        {onModify && (
+                        }
+                        {onModify &&
                             <button
                                 type="button"
                                 className="btn btn-outline-warning btn-sm "
@@ -38,11 +38,11 @@ export default function BookTable(props) {
                             >
                                 Edit
                             </button>
-                        )}
+                        }
                     </th>
-                )}
+                }
             </tr>
-        ));
+        );
     }
 
     function getTypeNameById(id) {
