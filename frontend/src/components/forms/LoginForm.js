@@ -1,9 +1,9 @@
-import React from "react";
-import {Button, Form} from "react-bootstrap";
-import "./Login.css";
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Button, Form } from 'react-bootstrap';
+import './Login.css';
 
 export default function Login(props) {
-
     const {
         email,
         password,
@@ -39,9 +39,17 @@ export default function Login(props) {
                     />
                 </Form.Group>
                 <Button block bsSize="large" disabled={!validateForm()} type="submit">
-                    Login
+          Login
                 </Button>
             </form>
         </div>
     );
 }
+
+Login.propTypes = {
+    email: PropTypes.string,
+    password: PropTypes.string,
+    handleSubmit: PropTypes.func,
+    handleLoginChange: PropTypes.func,
+    handlePasswordChange: PropTypes.func,
+};

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Modal, Button, Form, Col, Alert} from 'react-bootstrap';
+import { Modal, Button, Form, Col, Alert } from 'react-bootstrap';
 import Nav from '../Nav/nav';
 import { formatDate } from '../../utils';
 import _ from 'lodash';
-
 
 class ProjectsPage extends Component {
     constructor(props) {
@@ -25,7 +24,7 @@ class ProjectsPage extends Component {
             endDate: null,
             realEndDate: null,
             selectedProject: null
-        }
+        };
     }
 
     handleErrors(response) {
@@ -52,7 +51,7 @@ class ProjectsPage extends Component {
         this.setState({
             showModify: true,
             selectedProject: id
-        })
+        });
     }
 
     hideModals() {
@@ -75,287 +74,391 @@ class ProjectsPage extends Component {
         this.setState({
             showFailedMessage: false,
             showSuccessMessage: false
-        })
-    }
-
-    handleFormChange = event => {
-        const target = event.target;
-        const value = target.name === 'isGoing' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
         });
     }
 
-    onSubmitCreate() {
-        const {name, cost, department, startDate, endDate, realEndDate} = this.state;
-        const body = {
-            name: name,
-            cost: cost,
-            department: department,
-            startDate: startDate,
-            endDate: endDate,
-            realEndDate: realEndDate
-        }
+  handleFormChange = (event) => {
+      const target = event.target;
+      const value = target.name === 'isGoing' ? target.checked : target.value;
+      const name = target.name;
 
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }, // dunno that is it
-            body: JSON.stringify(body)
-        };
+      this.setState({
+          [name]: value
+      });
+  }
 
-        fetch('/api/projects/create', requestOptions)
-            .then(response => this.handleErrors(response))
-            .then(response => this.setState({ showSuccessMessage: response === 1}))
-            .catch(error => this.setState({ error, showFailedMessage: true }));
+  onSubmitCreate() {
+      const { name, cost, department, startDate, endDate, realEndDate } = this.state;
+      const body = {
+          name: name,
+          cost: cost,
+          department: department,
+          startDate: startDate,
+          endDate: endDate,
+          realEndDate: realEndDate
+      };
 
-        this.hideModals();
+      const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }, // dunno that is it
+          body: JSON.stringify(body)
+      };
 
-        fetch('/api/projects')
-            .then(res => res.json())
-            .then(projects => this.setState({ projects }));
-    }
+      fetch('/api/projects/create', requestOptions)
+          .then((response) => this.handleErrors(response))
+          .then((response) => this.setState({ showSuccessMessage: response === 1 }))
+          .catch((error) => this.setState({ error, showFailedMessage: true }));
 
-    onSubmitModify() {
-        const {name, cost, department, startDate, endDate, realEndDate, selectedProject, projects} = this.state;
-        const values = _.find(projects, project => project.ID === selectedProject);
-        const body = {
-            name: name === '' ? values.NAME : name,
-            cost: cost === 0 ? values.COST : cost,
-            department: _.isNil(department) ? values.DEPARTMENT_ID : department,
-            startDate: _.isNil(startDate) ? _.split(values.DATE_BEG, 'T', 1)[0] : startDate,
-            endDate: _.isNil(endDate) ? _.split(values.DATE_END, 'T', 1)[0] : endDate,
-            realEndDate: _.isNil(realEndDate) ? _.split(values.DATE_END_REAL, 'T', 1)[0] : realEndDate,
-            id: selectedProject
-        }
-        console.log(body)
+      this.hideModals();
 
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }, // dunno that is it
-            body: JSON.stringify(body)
-        };
+      fetch('/api/projects')
+          .then((res) => res.json())
+          .then((projects) => this.setState({ projects }));
+  }
 
+  onSubmitModify() {
+      const {
+          name,
+          cost,
+          department,
+          startDate,
+          endDate,
+          realEndDate,
+          selectedProject,
+          projects
+      } = this.state;
+      const values = _.find(projects, (project) => project.ID === selectedProject);
+      const body = {
+          name: name === '' ? values.NAME : name,
+          cost: cost === 0 ? values.COST : cost,
+          department: _.isNil(department) ? values.DEPARTMENT_ID : department,
+          startDate: _.isNil(startDate)
+              ? _.split(values.DATE_BEG, 'T', 1)[0]
+              : startDate,
+          endDate: _.isNil(endDate) ? _.split(values.DATE_END, 'T', 1)[0] : endDate,
+          realEndDate: _.isNil(realEndDate)
+              ? _.split(values.DATE_END_REAL, 'T', 1)[0]
+              : realEndDate,
+          id: selectedProject
+      };
+      console.log(body);
 
-        fetch(`/api/projects/${selectedProject}/modify`, requestOptions)
-            .then(response => this.handleErrors(response))
-            .then(response => this.setState({ showSuccessMessage: response === 1}))
-            .catch(error => this.setState({ error, showFailedMessage: true }));
+      const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }, // dunno that is it
+          body: JSON.stringify(body)
+      };
 
-        this.hideModals();
+      fetch(`/api/projects/${selectedProject}/modify`, requestOptions)
+          .then((response) => this.handleErrors(response))
+          .then((response) => this.setState({ showSuccessMessage: response === 1 }))
+          .catch((error) => this.setState({ error, showFailedMessage: true }));
 
-        fetch('/api/projects')
-            .then(res => res.json())
-            .then(projects => this.setState({ projects }));
-    }
+      this.hideModals();
 
-    renderCreateModal() {
-        const { showCreate, departments } = this.state;
-        return (
-            <Modal show={showCreate} size="lg" onHide={() => this.hideModals()}>
-                <Modal.Header>
-                    <Modal.Title>Create new project</Modal.Title>
-                </Modal.Header>
+      fetch('/api/projects')
+          .then((res) => res.json())
+          .then((projects) => this.setState({ projects }));
+  }
 
-                <Modal.Body>
-                    <Form>
-                        <Form.Group>
-                            <Form.Label>Project name</Form.Label>
-                            <Form.Control type="text" name="name" placeholder="Enter name" onChange={(e) => this.handleFormChange(e)} />
-                        </Form.Group>
+  renderCreateModal() {
+      const { showCreate, departments } = this.state;
+      return (
+          <Modal show={showCreate} size="lg" onHide={() => this.hideModals()}>
+              <Modal.Header>
+                  <Modal.Title>Create new project</Modal.Title>
+              </Modal.Header>
 
-                        <Form.Group>
-                            <Form.Label>Cost of project</Form.Label>
-                            <Form.Control type="number" name="cost" placeholder="Cost $" min="0" onChange={(e) => this.handleFormChange(e)} />
-                        </Form.Group>
+              <Modal.Body>
+                  <Form>
+                      <Form.Group>
+                          <Form.Label>Project name</Form.Label>
+                          <Form.Control
+                              type="text"
+                              name="name"
+                              placeholder="Enter name"
+                              onChange={(e) => this.handleFormChange(e)}
+                          />
+                      </Form.Group>
 
-                        <Form.Group>
-                            <Form.Label>Department</Form.Label>
-                            <Form.Control as="select" name="department" onChange={(e) => this.handleFormChange(e)}>
-                                <option>Choose...</option>
-                                {_.map(departments, department => <option value={department.ID}>{department.NAME}</option>)}
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Row>
-                            <Form.Group as={Col} md="4">
-                                <Form.Label>Start date</Form.Label>
-                                <Form.Control type="date" name="startDate" onChange={(e) => this.handleFormChange(e)}/>
-                            </Form.Group>
+                      <Form.Group>
+                          <Form.Label>Cost of project</Form.Label>
+                          <Form.Control
+                              type="number"
+                              name="cost"
+                              placeholder="Cost $"
+                              min="0"
+                              onChange={(e) => this.handleFormChange(e)}
+                          />
+                      </Form.Group>
 
-                            <Form.Group as={Col} md="4">
-                                <Form.Label>End date</Form.Label>
-                                <Form.Control type="date" name="endDate" onChange={(e) => this.handleFormChange(e)}/>
-                            </Form.Group>
+                      <Form.Group>
+                          <Form.Label>Department</Form.Label>
+                          <Form.Control
+                              as="select"
+                              name="department"
+                              onChange={(e) => this.handleFormChange(e)}
+                          >
+                              <option>Choose...</option>
+                              {_.map(departments, (department) =>
+                                  <option value={department.ID}>{department.NAME}</option>
+                              )}
+                          </Form.Control>
+                      </Form.Group>
+                      <Form.Row>
+                          <Form.Group as={Col} md="4">
+                              <Form.Label>Start date</Form.Label>
+                              <Form.Control
+                                  type="date"
+                                  name="startDate"
+                                  onChange={(e) => this.handleFormChange(e)}
+                              />
+                          </Form.Group>
 
-                            <Form.Group as={Col} md="4">
-                                <Form.Label>Real End date</Form.Label>
-                                <Form.Control type="date" name="realEndDate" onChange={(e) => this.handleFormChange(e)}/>
-                            </Form.Group>
-                        </Form.Row>
-                    </Form>
-                </Modal.Body>
+                          <Form.Group as={Col} md="4">
+                              <Form.Label>End date</Form.Label>
+                              <Form.Control
+                                  type="date"
+                                  name="endDate"
+                                  onChange={(e) => this.handleFormChange(e)}
+                              />
+                          </Form.Group>
 
-                <Modal.Footer>
-                    <Button variant="outline-info" onClick={() => this.hideModals()}>Close</Button>
-                    <Button variant="info" onClick={() => this.onSubmitCreate()} >Create new project</Button>
-                </Modal.Footer>
-            </Modal>
-        );
+                          <Form.Group as={Col} md="4">
+                              <Form.Label>Real End date</Form.Label>
+                              <Form.Control
+                                  type="date"
+                                  name="realEndDate"
+                                  onChange={(e) => this.handleFormChange(e)}
+                              />
+                          </Form.Group>
+                      </Form.Row>
+                  </Form>
+              </Modal.Body>
 
-    }
+              <Modal.Footer>
+                  <Button variant="outline-info" onClick={() => this.hideModals()}>
+            Close
+                  </Button>
+                  <Button variant="info" onClick={() => this.onSubmitCreate()}>
+            Create new project
+                  </Button>
+              </Modal.Footer>
+          </Modal>
+      );
+  }
 
-    renderDeleteModal() {
+  renderDeleteModal() {}
 
-    }
+  renderModifyModal() {
+      const { showModify, departments, projects, selectedProject } = this.state;
+      const values = _.find(projects, (project) => project.ID === selectedProject);
+      return (
+          <Modal show={showModify} size="lg" onHide={() => this.hideModals()}>
+              <Modal.Header>
+                  <Modal.Title>Modify selected project</Modal.Title>
+              </Modal.Header>
 
-    renderModifyModal() {
-        const { showModify, departments, projects, selectedProject} = this.state;
-        const values = _.find(projects, project => project.ID === selectedProject);
-        return (
-            <Modal show={showModify} size="lg" onHide={() => this.hideModals()}>
-                <Modal.Header>
-                    <Modal.Title>Modify selected project</Modal.Title>
-                </Modal.Header>
+              <Modal.Body>
+                  <Form>
+                      <Form.Group>
+                          <Form.Label>Project name</Form.Label>
+                          <Form.Control
+                              type="text"
+                              defaultValue={values.NAME}
+                              name="name"
+                              placeholder="Enter name"
+                              onChange={(e) => this.handleFormChange(e)}
+                          />
+                      </Form.Group>
 
-                <Modal.Body>
-                    <Form>
-                        <Form.Group>
-                            <Form.Label>Project name</Form.Label>
-                            <Form.Control type="text" defaultValue={values.NAME} name="name" placeholder="Enter name" onChange={(e) => this.handleFormChange(e)} />
-                        </Form.Group>
+                      <Form.Group>
+                          <Form.Label>Cost of project</Form.Label>
+                          <Form.Control
+                              type="number"
+                              defaultValue={values.COST}
+                              name="cost"
+                              placeholder="Cost $"
+                              min="0"
+                              onChange={(e) => this.handleFormChange(e)}
+                          />
+                      </Form.Group>
 
-                        <Form.Group>
-                            <Form.Label>Cost of project</Form.Label>
-                            <Form.Control type="number" defaultValue={values.COST} name="cost" placeholder="Cost $" min="0" onChange={(e) => this.handleFormChange(e)} />
-                        </Form.Group>
+                      <Form.Group>
+                          <Form.Label>Department</Form.Label>
+                          <Form.Control
+                              as="select"
+                              defaultValue={values.DEPARTMENT_ID}
+                              name="department"
+                              onChange={(e) => this.handleFormChange(e)}
+                          >
+                              <option>Choose...</option>
+                              {_.map(departments, (department) =>
+                                  <option value={department.ID}>{department.NAME}</option>
+                              )}
+                          </Form.Control>
+                      </Form.Group>
+                      <Form.Row>
+                          <Form.Group as={Col} md="4">
+                              <Form.Label>Start date</Form.Label>
+                              <Form.Control
+                                  type="date"
+                                  defaultValue={_.split(values.DATE_BEG, 'T', 1)}
+                                  name="startDate"
+                                  onChange={(e) => this.handleFormChange(e)}
+                              />
+                          </Form.Group>
 
-                        <Form.Group>
-                            <Form.Label>Department</Form.Label>
-                            <Form.Control as="select" defaultValue={values.DEPARTMENT_ID} name="department" onChange={(e) => this.handleFormChange(e)}>
-                                <option>Choose...</option>
-                                {_.map(departments, department => <option value={department.ID}>{department.NAME}</option>)}
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Row>
-                            <Form.Group as={Col} md="4">
-                                <Form.Label>Start date</Form.Label>
-                                <Form.Control type="date" defaultValue={_.split(values.DATE_BEG, 'T', 1)} name="startDate" onChange={(e) => this.handleFormChange(e)}/>
-                            </Form.Group>
+                          <Form.Group as={Col} md="4">
+                              <Form.Label>End date</Form.Label>
+                              <Form.Control
+                                  type="date"
+                                  defaultValue={_.split(values.DATE_END, 'T', 1)}
+                                  name="endDate"
+                                  onChange={(e) => this.handleFormChange(e)}
+                              />
+                          </Form.Group>
 
-                            <Form.Group as={Col} md="4">
-                                <Form.Label>End date</Form.Label>
-                                <Form.Control type="date" defaultValue={_.split(values.DATE_END, 'T', 1)} name="endDate" onChange={(e) => this.handleFormChange(e)}/>
-                            </Form.Group>
+                          <Form.Group as={Col} md="4">
+                              <Form.Label>Real End date</Form.Label>
+                              <Form.Control
+                                  type="date"
+                                  defaultValue={_.split(values.DATE_END_REAL, 'T', 1)}
+                                  name="realEndDate"
+                                  onChange={(e) => this.handleFormChange(e)}
+                              />
+                          </Form.Group>
+                      </Form.Row>
+                  </Form>
+              </Modal.Body>
 
-                            <Form.Group as={Col} md="4">
-                                <Form.Label>Real End date</Form.Label>
-                                <Form.Control type="date" defaultValue={_.split(values.DATE_END_REAL, 'T', 1)} name="realEndDate" onChange={(e) => this.handleFormChange(e)}/>
-                            </Form.Group>
-                        </Form.Row>
-                    </Form>
-                </Modal.Body>
+              <Modal.Footer>
+                  <Button variant="outline-info" onClick={() => this.hideModals()}>
+            Close
+                  </Button>
+                  <Button variant="info" onClick={() => this.onSubmitModify()}>
+            Modify project
+                  </Button>
+              </Modal.Footer>
+          </Modal>
+      );
+  }
 
-                <Modal.Footer>
-                    <Button variant="outline-info" onClick={() => this.hideModals()}>Close</Button>
-                    <Button variant="info" onClick={() => this.onSubmitModify()} >Modify project</Button>
-                </Modal.Footer>
-            </Modal>
-        );
+  renderTableRows() {
+      const { projects } = this.state;
+      const tableRows = projects.map((project) => {
+          return (
+              <tr key={project.ID}>
+                  <th>{project.ID}</th>
+                  <th>{project.NAME}</th>
+                  <th>{project.COST}</th>
+                  <th>{project.DEPARTMENT_ID}</th>
+                  <th>{formatDate(project.DATE_BEG)}</th>
+                  <th>{formatDate(project.DATE_END)}</th>
+                  <th>{formatDate(project.DATE_END_REAL)}</th>
+                  <th>
+                      <button
+                          type="button"
+                          className="btn btn-outline-info btn-sm mx-2"
+                          onClick={() => this.onDelete(project.ID)}
+                      >
+              delete
+                      </button>
+                      <button
+                          type="button"
+                          className="btn btn-outline-info btn-sm "
+                          onClick={() => this.onModify(project.ID)}
+                      >
+              modify
+                      </button>
+                  </th>
+              </tr>
+          );
+      });
 
-    }
+      return tableRows;
+  }
 
-    renderTableRows() {
-        const { projects } = this.state;
-        const tableRows = projects.map(project => {
-            return (
-                <tr key={project.ID}>
-                    <th>{project.ID}</th>
-                    <th>{project.NAME}</th>
-                    <th>{project.COST}</th>
-                    <th>{project.DEPARTMENT_ID}</th>
-                    <th>{formatDate(project.DATE_BEG)}</th>
-                    <th>{formatDate(project.DATE_END)}</th>
-                    <th>{formatDate(project.DATE_END_REAL)}</th>
-                    <th>
-                        <button type="button" className="btn btn-outline-info btn-sm mx-2" onClick={() => this.onDelete(project.ID)}>delete</button>
-                        <button type="button" className="btn btn-outline-info btn-sm " onClick={() => this.onModify(project.ID)}>modify</button>
-                    </th>
-                </tr>
-            )
-        });
+  renderFailedMessage() {
+      const { error } = this.state;
 
-        return tableRows;
-    }
+      return (
+          <Alert variant="danger" onClose={() => this.hideMessages()} dismissible>
+              {`Operation denied: ${error}`}
+          </Alert>
+      );
+  }
 
-    renderFailedMessage() {
-        const {error} = this.state;
+  renderSuccessMessage() {
+      return (
+          <Alert variant="success" onClose={() => this.hideMessages()} dismissible>
+        Operation finished successfully!
+          </Alert>
+      );
+  }
 
-        return (
-            <Alert variant="danger" onClose={() => this.hideMessages()} dismissible>
-                {`Operation denied: ${error}`}
-            </Alert>
-        );
-    }
+  componentDidMount() {
+      fetch('/api/projects')
+          .then((res) => res.json())
+          .then((projects) => this.setState({ projects }));
 
-    renderSuccessMessage() {
-        return (
-            <Alert variant="success" onClose={() => this.hideMessages()} dismissible>
-                Operation finished successfully! 
-            </Alert>
-        );
-    }
+      fetch('/api/departments')
+          .then((res) => res.json())
+          .then((departments) => this.setState({ departments }));
+  }
 
-    componentDidMount() {
-        fetch('/api/projects')
-            .then(res => res.json())
-            .then(projects => this.setState({ projects }));
+  render() {
+      const {
+          showCreate,
+          showDelete,
+          showModify,
+          showFailedMessage,
+          showSuccessMessage
+      } = this.state;
 
-        fetch('/api/departments')
-            .then(res => res.json())
-            .then(departments => this.setState({ departments }));
-    };
+      return (
+          <div className="row">
+              {' '}
+              <Nav />
+              <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-5 p-4">
+                  <h2 className="pt-4">Projects</h2>
 
-    render() {
-        const { showCreate, showDelete, showModify, showFailedMessage, showSuccessMessage} = this.state;
+                  {showSuccessMessage ? this.renderSuccessMessage() : null}
+                  {showFailedMessage ? this.renderFailedMessage() : null}
 
-        return (
-            <div className="row">               <Nav />
-                <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-5 p-4">
-                    <h2 className="pt-4">Projects</h2>
+                  <button
+                      type="button"
+                      className="btn btn-outline-info my-3"
+                      onClick={() => this.onCreate()}
+                  >
+            Create new project
+                  </button>
 
-                    {showSuccessMessage ? this.renderSuccessMessage() : null}
-                    {showFailedMessage ? this.renderFailedMessage() : null}
+                  <div className="table-responsive">
+                      <table className="table table-sm table-bordered table-hover">
+                          <thead>
+                              <tr className="table-info">
+                                  <th className="bold">ID</th>
+                                  <th className="bold">Name</th>
+                                  <th className="bold">Cost</th>
+                                  <th className="bold">Department ID</th>
+                                  <th className="bold">Start Date</th>
+                                  <th className="bold">End Date</th>
+                                  <th className="bold">Real End Date</th>
+                                  <th className="bold">Actions</th>
+                              </tr>
+                          </thead>
+                          <tbody>{this.renderTableRows()}</tbody>
+                      </table>
+                  </div>
 
-                    <button type="button" className="btn btn-outline-info my-3" onClick={() => this.onCreate()}>Create new project</button>
-
-                    <div className="table-responsive">
-                        <table className="table table-sm table-bordered table-hover">
-                            <thead>
-                                <tr className="table-info">
-                                    <th className="bold">ID</th>
-                                    <th className="bold">Name</th>
-                                    <th className="bold">Cost</th>
-                                    <th className="bold">Department ID</th>
-                                    <th className="bold">Start Date</th>
-                                    <th className="bold">End Date</th>
-                                    <th className="bold">Real End Date</th>
-                                    <th className="bold">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.renderTableRows()}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {showCreate ? this.renderCreateModal() : null}
-                    {showDelete ? this.renderDeleteModal() : null}
-                    {showModify ? this.renderModifyModal() : null}
-                </main>
-            </div>
-        )
-    }
+                  {showCreate ? this.renderCreateModal() : null}
+                  {showDelete ? this.renderDeleteModal() : null}
+                  {showModify ? this.renderModifyModal() : null}
+              </main>
+          </div>
+      );
+  }
 }
 
 export default ProjectsPage;
