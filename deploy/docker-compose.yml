@@ -3,6 +3,44 @@ version: '3'
 services:
   oracle_db:
     image: oracleinanutshell/oracle-xe-11g:latest
+    restart: always
     ports:
       - 1521:1521
       - 5500:5500
+    volumes:
+      - /data/db:/data/db
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    restart: always
+    links:
+      - oracle_db
+    depends_on:
+      - oracle_db
+    ports:
+      - 5000:5000
+    volumes:
+      - /data/backend/storage:/data/backend
+#    environment:
+#      - ORACLE_CONNECT_STRING='0.0.0.0:1521'
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    restart: always
+    links:
+      - backend
+    depends_on:
+      - backend
+    ports:
+      - 3000:3000
+    volumes:
+      - /data/frontend/storage:/data/frontend
+
+networks:
+  default:
+    external:
+      name: local_network_1

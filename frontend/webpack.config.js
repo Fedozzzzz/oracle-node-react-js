@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     module: {
@@ -33,6 +34,12 @@ module.exports = {
                 use: ['babel-loader', 'eslint-loader'],
             },
         ],
+    },
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        compress: true,
+        port: 3000,
+        host: '0.0.0.0'
     },
     plugins: [
         new HtmlWebPackPlugin({
